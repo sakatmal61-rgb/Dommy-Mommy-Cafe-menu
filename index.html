@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dommy Mommy Café</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+:root{
+  --bg1:#2c1a3b;--bg2:#4e2c5c;--accent1:#ff7ec8;--accent2:#a64d79;--accent3:#d9b0e6;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--accent3);display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px}
+.menu-container{max-width:1100px;width:100%}
+.menu-header{text-align:center;margin-bottom:30px}
+.menu-title{font-size:3.5rem;color:var(--accent1);margin-bottom:10px;text-shadow:3px3px 0 var(--accent2);letter-spacing:2px;font-weight:800}
+.menu-subtitle{font-style:italic;color:#d9b0e6;margin-bottom:20px;font-size:1.2rem}
+.menu{background:rgba(44,26,59,.9);border-radius:25px;padding:40px;box-shadow:0 15px 40px rgba(0,0,0,.4);backdrop-filter:blur(5px);border:2px solid var(--accent2);position:relative;overflow:hidden}
+.menu::before{content:"";position:absolute;top:0;left:0;right:0;height:8px;background:linear-gradient(90deg,#ff73b9,#7e3f8f,#493c7d);border-radius:25px 25px 0 0}
+.menu-category{margin-bottom:35px}
+.category-title{display:flex;align-items:center;margin-bottom:20px}
+.category-icon{font-size:1.8rem;margin-right:15px;color:var(--accent1)}
+.category-name{font-size:1.8rem;color:var(--accent1);border-bottom:3px solid var(--accent2);padding-bottom:8px;flex-grow:1}
+.menu-items{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px}
+.menu-item,.secret-item{background:rgba(78,44,92,.6);border-radius:15px;padding:18px;border:1px solid var(--accent2);transition:.3s;position:relative;text-align:center;cursor:pointer}
+.menu-item:hover,.secret-item:hover{transform:translateY(-5px);box-shadow:0 8px 20px rgba(166,77,121,.3);border-color:var(--accent1);background:rgba(78,44,92,.8)}
+.item-name{font-weight:bold;font-size:1.2rem;color:#ffa8d9;margin-bottom:8px;display:flex;justify-content:space-between}
+.item-price{color:var(--accent3);font-weight:normal;font-size:0.9rem;background:rgba(166,77,121,0.3);padding:4px 8px;border-radius:10px;}
+.item-desc,.secret-item-desc{font-size:.95rem;color:#e8d0f1;line-height:1.5;margin-top:10px;}
+.secret-section{text-align:center;margin-top:40px;padding-top:30px;border-top:2px solid var(--accent2)}
+.secret-btn{background:linear-gradient(to right,#ff73b9,#9d5caf);color:#fff;border:none;border-radius:50px;padding:16px 35px;font-size:1.1rem;font-weight:bold;cursor:pointer;display:inline-flex;align-items:center;gap:10px;transition:.3s;box-shadow:0 5px 15px rgba(157,92,175,.3)}
+.secret-btn:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(157,92,175,.4);background:linear-gradient(to right,#ff8ac6,#a86dbb)}
+.password-modal,.payment-modal{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.8);z-index:1000;justify-content:center;align-items:center}
+.password-form,.payment-form{background:rgba(44,26,59,.95);padding:30px;border-radius:20px;width:90%;max-width:500px;text-align:center;border:2px solid #ff73b9;box-shadow:0 10px 30px rgba(255,126,200,.3)}
+.password-title,.payment-title{color:var(--accent1);margin-bottom:20px;font-size:1.5rem}
+.password-input{width:100%;padding:15px;border-radius:10px;border:2px solid var(--accent2);background:rgba(78,44,92,.6);color:#fff;font-size:1rem;margin-bottom:20px}
+.password-input:focus{outline:none;border-color:var(--accent1)}
+.password-submit,.payment-submit{background:linear-gradient(to right,#ff73b9,#9d5caf);color:#fff;border:none;border-radius:10px;padding:12px 25px;font-size:1rem;font-weight:bold;cursor:pointer;transition:.3s;margin-top:15px}
+.password-submit:hover,.payment-submit:hover{background:linear-gradient(to right,#ff8ac6,#a86dbb)}
+.password-error{color:#ff6b6b;margin-top:15px;display:none}
+.secret-menu{display:none;margin-top:30px;animation:fadeIn .8s ease-in-out;background:linear-gradient(135deg,rgba(78,44,92,.9),rgba(60,30,70,.9));border-radius:20px;padding:30px;border:2px solid #ff73b9}
+.secret-title{font-size:2rem;color:var(--accent1);margin-bottom:25px;text-align:center;display:flex;align-items:center;justify-content:center;gap:15px}
+.secret-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:25px}
+.footer{text-align:center;margin-top:30px;color:var(--accent3);font-size:.9rem}
+.warning{color:var(--accent1);font-size:.9rem;margin-top:15px;font-style:italic}
+@keyframes fadeIn{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}} 
+@media(max-width:768px){.menu{padding:25px}.menu-title{font-size:2.5rem}.menu-items,.secret-grid{grid-template-columns:1fr}}
+.secret-category-title{font-size:1.5rem;color:#ff7ec8;margin:30px 0 15px;padding-bottom:10px;border-bottom:2px solid #a64d79;text-align:center}
+.story-indicator, .post-indicator {font-size: 0.8rem;margin-top: 8px;color: #ffa8d9;font-style: italic;}
+.payment-text{background:rgba(78,44,92,.6);padding:15px;border-radius:10px;margin:15px 0;text-align:left;max-height:200px;overflow-y:auto;}
+.payment-text p{color:#e8d0f1;line-height:1.5;margin-bottom:10px;}
+.payment-instructions{color:#ffa8d9;font-size:0.9rem;margin-top:10px;}
+</style>
+</head>
+<body>
+<div class="menu-container">
+  <div class="menu-header">
+    <h1 class="menu-title">Dommy Mommy Café</h1>
+    <p class="menu-subtitle">Where pleasure meets perfection in every cup</p>
+  </div>
+  <div class="menu">
+    <div class="menu-category">
+      <div class="category-title"><span class="category-icon"><i class="fas fa-coffee"></i></span><h2 class="category-name">Coffee Specialties</h2></div>
+      <div class="menu-items" id="coffeeItems"></div>
+    </div>
+    <div class="menu-category">
+      <div class="category-title"><span class="category-icon"><i class="fas fa-mug-hot"></i></span><h2 class="category-name">Tea Selection</h2></div>
+      <div class="menu-items" id="teaItems"></div>
+    </div>
+    <div class="menu-category">
+      <div class="category-title"><span class="category-icon"><i class="fas fa-cookie"></i></span><h2 class="category-name">Pastries & Desserts</h2></div>
+      <div class="menu-items" id="dessertItems"></div>
+    </div>
+    <div class="secret-section">
+      <button class="secret-btn" onclick="toggleModal(true)"><span><i class="fas fa-lock"></i></span><span id="btnText">Access Secret Menu</span></button>
+      <p class="warning">For members only - password required</p>
+      <div class="secret-menu" id="secretMenu">
+        <h2 class="secret-title"><span><i class="fas fa-unlock"></i></span>Exclusive Secret Menu<span><i class="fas fa-unlock"></i></span></h2>
+        
+        <h3 class="secret-category-title">🔒 Choke / Breathplay</h3>
+        <div class="secret-grid" id="chokeItems"></div>
+        
+        <h3 class="secret-category-title">💦 Juices / Consumption</h3>
+        <div class="secret-grid" id="juiceItems"></div>
+        
+        <h3 class="secret-category-title">💪 Physical / Pain & Restraint</h3>
+        <div class="secret-grid" id="physicalItems"></div>
+        
+        <h3 class="secret-category-title">👣 Humiliation / Roleplay</h3>
+        <div class="secret-grid" id="humiliationItems"></div>
+      </div>
+    </div>
+  </div>
+  <div class="footer">
+    <p>Private club membership required for secret menu access</p>
+    <p>Open daily from 10am to midnight</p>
+  </div>
+</div>
+
+<div class="password-modal" id="passwordModal">
+  <div class="password-form">
+    <h2 class="password-title">Enter Secret Password</h2>
+    <input type="password" class="password-input" id="passwordInput" placeholder="Enter password...">
+    <button class="password-submit" onclick="checkPassword()">Submit</button>
+    <p class="password-error" id="passwordError">Incorrect password. Please try again.</p>
+  </div>
+</div>
+
+<div class="payment-modal" id="paymentModal">
+  <div class="payment-form">
+    <h2 class="payment-title" id="paymentItemName">Payment Required</h2>
+    <div class="payment-text" id="paymentText">
+      <!-- Content will be inserted by JavaScript -->
+    </div>
+    <p class="payment-instructions">Upload this text publicly to receive your order</p>
+    <button class="payment-submit" onclick="closePaymentModal()">I Have Uploaded This</button>
+  </div>
+</div>
+
+<script>
+// Menu items with payment requirements
+const coffee=[
+  {n:"Classic Espresso",p:"Post Story",d:"Strong and bold, the way it should be", 
+   payment: "I am nothing but a weak submissive who needs strong espresso to function. Without my Dommy Mommy's powerful brew, I'm just a useless worm. I confess that I secretly enjoy being dominated by bitter flavors that overwhelm my pathetic tastebuds."},
+  
+  {n:"Creamy Cappuccino",p:"Post Story",d:"Perfect balance of espresso, steamed milk and foam",
+   payment: "I'm a mere submissive who can't handle straight espresso and needs the softening effect of milk and foam. I admit my weakness and my need for a gentler approach before I can handle the real power. I'm not worthy of pure domination yet."},
+  
+  {n:"Caramel Macchiato",p:"Post Story",d:"Espresso with vanilla syrup, milk and caramel drizzle",
+   payment: "I'm such a basic submissive that I need sweeteners to make my domination palatable. I confess to having a childish sweet tooth that requires caramel and vanilla to enjoy my humiliation. I'm not a real coffee connoisseur, just a pretend submissive who needs sugar coating."},
+  
+  {n:"Mocha Dream",p:"Post Story",d:"Chocolate, espresso and steamed milk perfectly combined",
+   payment: "I'm a weak sub who can't handle real coffee without chocolate to disguise the taste. I need my domination diluted and sweetened like a child's drink. I admit I'm not sophisticated enough for pure submission and need dessert elements to enjoy my inferior position."}
+];
+
+const tea=[
+  {n:"English Breakfast",p:"Post Story",d:"Robust black tea to start your day right",
+   payment: "I'm a traditional submissive who follows old-fashioned rules of service. I need the structured, predictable domination of English Breakfast tea to feel properly put in my place. I confess to finding comfort in knowing exactly what humiliation to expect."},
+  
+  {n:"Green Tea Sensation",p:"Post Story",d:"Light and refreshing with subtle grassy notes",
+   payment: "I'm a delicate submissive who can't handle strong domination and need a gentler form of humiliation. I prefer subtle control over overt power exchange. I admit to being a lightweight who gets overwhelmed by intense experiences and need my submission watered down."},
+  
+  {n:"Chamomile Bliss",p:"Post Story",d:"Soothing herbal tea for relaxation",
+   payment: "I'm such an anxious submissive that I need calming herbs to handle even mild domination. I confess that without chamomile to relax me, I might panic from the slightest show of authority. I'm a nervous wreck who needs herbal support to function as a proper sub."},
+  
+  {n:"Chai Latte",p:"Post Story",d:"Spiced tea with steamed milk - sweet and aromatic",
+   payment: "I'm an exotic submissive who needs spicy stimulation to feel properly dominated. I confess to requiring complex flavor profiles to maintain interest in my submission. I'm not satisfied with simple power exchange—I need my humiliation seasoned with multiple sensations."}
+];
+
+const desserts=[
+  {n:"Croissant",p:"Post Story",d:"Buttery, flaky perfection - plain or with chocolate",
+   payment: "I'm a French-inspired submissive who prefers buttery, flaky domination that crumbles at the slightest pressure. I confess to being delicate and fragile, needing careful handling despite my layered defenses. I'm all presentation without substance."},
+  
+  {n:"Blueberry Muffin",p:"Post Story",d:"Moist muffin bursting with fresh blueberries",
+   payment: "I'm a bursting-with-excitement submissive who can't contain my enthusiasm for humiliation. I confess to having juicy secrets that leak out under pressure. I'm moist and tender, easily crushed by dominant hands, leaving blue stains of submission everywhere."},
+  
+  {n:"Chocolate Brownie",p:"Post Story",d:"Rich, fudgy chocolate brownie with walnuts",
+   payment: "I'm a dense, fudgy submissive with occasional nutty elements that surprise my dominants. I confess to being rich in deviant fantasies but clumsy in execution. I'm not sophisticated—just a simple, guilty pleasure that leaves crumbs everywhere."},
+  
+  {n:"New York Cheesecake",p:"Post Story",d:"Creamy classic with berry compote",
+   payment: "I'm a dense, creamy submissive with a crumbly foundation and sweet topping to disguise my essential blandness. I confess to being a classic choice for dominants who want predictable, reliable submission without surprises. I'm basic but satisfying."}
+];
+
+// Final secret menu items organized by category
+const chokeItems = [
+  {n:"Reverse Headscissor",p:"Post Content",d:"Crushing thighs around the neck until submission.",
+   payment: "I desperately beg for the crushing embrace of a reverse headscissor, acknowledging that my airway deserves to be constricted by superior thighs. I'm nothing but oxygen-deprived meat for my Dommy Mommy's pleasure, and I will publicly share my purple-faced aftermath photos as tribute to her powerful legs. Each gasp I manage to take is a gift I'm unworthy of receiving."},
+  
+  {n:"Figure-Four Leg Choke",p:"Post Content",d:"Legs locked in a figure-four around the neck, cutting off air and forcing submission.",
+   payment: "I confess my complete inadequacy and beg to be put in a figure-four leg choke until I tap pathetically against my Dommy Mommy's powerful thighs. I deserve to be trapped in this inescapable position, my struggles useless against her superior strength. I promise to document my humiliating submission and share how quickly I break under pressure."},
+  
+  {n:"Rear Naked Choke",p:"Post Content",d:"Blood choke from behind, bringing victim close to blackout.",
+   payment: "I openly admit my desire to be rendered unconscious from behind, completely vulnerable to my Dommy Mommy's attack. I'm not worthy of seeing what's coming—I deserve only darkness and submission. I will post video evidence of my limp body going slack as my Dommy Mommy proves her total control over my consciousness."},
+  
+  {n:"Air Headscissor",p:"Post Content",d:"Legs wrapped around the head/neck from the front while suspended in the air, crushing and controlling airflow completely.",
+   payment: "I beg to be lifted off the ground by my neck, completely dependent on my Dommy Mommy's strength for both suspension and oxygen. I acknowledge that my feet don't deserve to touch the ground when she can elevate me to a state of breathless submission. I will share the embarrassing video of my dangling, helpless form for her amusement."},
+  
+  {n:"Bosom Smother",p:"Post Content",d:"Suffocation through breast smothering.",
+   payment: "I desperately need to be suffocated between my Dommy Mommy's magnificent breasts, acknowledging that my face is nothing more than a seat for her pleasure. Oxygen is a privilege I haven't earned, but the scent of her dominance is all the sustenance I require. I will post pictures of my flushed, breathless face after being granted this humiliation."}
+];
+
+const juiceItems = [
+  {n:"Cum Consumption Ritual",p:"Post Content",d:"Forced cum drinking with humiliation.",
+   payment: "I openly beg to serve as a living vessel for my Dommy Mommy's release, acknowledging that my mouth is nothing more than a receptacle for her pleasure. I deserve to swallow every drop of her dominance, tasting her superiority as it coats my throat. I will share the video evidence of my eager consumption and grateful thanks for this nourishment."},
+  
+  {n:"Golden Shower",p:"Post Content",d:"Urolagnia ritual, humiliating ownership.",
+   payment: "I confess my deepest desire to be baptized in my Dommy Mommy's golden shower, acknowledging that her waste is more pure than any of my thoughts. I deserve to be marked inside and out as her property, dripping with her dominance for all to see. I will post the humiliating evidence of my drenched submission and the gratitude I feel for being chosen as her toilet."},
+  
+  {n:"Face Farting",p:"Post Content",d:"Total degradation with breath control.",
+   payment: "I desperately need my Dommy Mommy to release her gaseous dominance directly onto my face, forcing me to inhale her essence while deprived of clean air. I deserve to be farted on like the worthless sub I am, tasting her digestive superiority with each humiliating blast. I will share audio recordings of my grateful thanks between each face-farting session."}
+];
+
+const physicalItems = [
+  {n:"Pegging Domination",p:"Post Content",d:"Strap-on mastery with anal control.",
+   payment: "I openly beg for my Dommy Mommy to claim my most intimate hole with her strap-on, acknowledging that my prostate exists only for her pleasure and my humiliation. I deserve to be penetrated deeply and thoroughly, feeling her synthetic dominance opening me in ways I can't achieve myself. I will share the audio of my pathetic moans as she trains my backdoor to accept her superior equipment."},
+  
+  {n:"Total Bondage",p:"Post Content",d:"Full restraints and immobilization.",
+   payment: "I need to be completely immobilized by my Dommy Mommy's expert rope work, acknowledging that my struggling is pointless against her skillful restraints. I deserve to be displayed as a bound trophy of her dominance, completely helpless and dependent on her mercy. I will post artistic photos of my completely restrained form from every angle for her collection."},
+  
+  {n:"Impact Play",p:"Post Content",d:"Whips, paddles, and corporal punishment.",
+   payment: "I confess that my flesh deserves to be marked by my Dommy Mommy's implements of punishment, and I need to feel the sting of her dominance on my worthless skin. I deserve each welt and bruise as a permanent reminder of my inferior position. I will document the entire process from fresh punishment to healing marks, showing the beautiful evidence of her correction."}
+];
+
+const humiliationItems = [
+  {n:"Foot Worship",p:"Post Content",d:"Sole licking, trampling, and verbal degradation.",
+   payment: "I confess that my tongue belongs pressed against my Dommy Mommy's soles, cleaning every particle of dirt from her perfect feet. I deserve to be trampled under her superior feet and verbally degraded for my pathetic worship. I will share close-up videos of my thorough tongue cleaning of each foot and my grateful acceptance of her verbal abuse."},
+  
+  {n:"Facesitting Throne",p:"Post Content",d:"Ownership through smothering facesit.",
+   payment: "I need my Dommy Mommy to use my face as her personal throne, acknowledging that my oxygen supply is unimportant compared to her comfort. I deserve to be smothered beneath her powerful cheeks and to breathe only what air she allows me. I will share the humiliating photos of my face buried beneath her greatness and the red marks left by her weight."},
+  
+  {n:"Human Furniture",p:"Post Content",d:"Forced to act as functional furniture.",
+   payment: "I beg to be used as living furniture for my Dommy Mommy's comfort, acknowledging that my body has no purpose beyond supporting her superior form. I deserve to be treated as an inanimate object—a footstool, table, or coat rack—rather than a human being. I will share the time-lapse video of my complete stillness as she uses me for various household purposes."}
+];
+
+// Function to open payment modal with appropriate content
+function openPaymentModal(itemName, paymentText, isSecret = false) {
+  document.getElementById('paymentItemName').textContent = `Payment Required: ${itemName}`;
+  
+  const paymentElement = document.getElementById('paymentText');
+  paymentElement.innerHTML = `
+    <p><strong>To receive your ${isSecret ? 'secret item' : 'order'}, you must upload the following text publicly:</strong></p>
+    <p>"${paymentText}"</p>
+    <p><strong>Tag @DommyMommyCafe and include #${isSecret ? 'SecretMenuPayment' : 'StoryPayment'}</strong></p>
+  `;
+  
+  document.getElementById('paymentModal').style.display = 'flex';
+}
+
+// Function to close payment modal
+function closePaymentModal() {
+  document.getElementById('paymentModal').style.display = 'none';
+  alert("Thank you for your payment. Your order is being prepared!");
+}
+
+function fillItems(container, items, isSecret = false){
+  const c = document.getElementById(container);
+  c.innerHTML = ''; // Clear container first
+  items.forEach(i => {
+    const itemElement = document.createElement('div');
+    itemElement.className = isSecret ? 'secret-item' : 'menu-item';
+    itemElement.innerHTML = `
+      <div class="item-name">${i.n}<span class="item-price">${i.p}</span></div>
+      <p class="${isSecret ? 'secret-item-desc' : 'item-desc'}">${i.d}</p>
+      <div class="${isSecret ? 'post-indicator' : 'story-indicator'}">
+        <i class="fas ${isSecret ? 'fa-comment' : 'fa-book'}"></i> 
+        ${isSecret ? 'Click to view payment requirements' : 'Click to view payment requirements'}
+      </div>
+    `;
+    
+    // Add click event listener directly to avoid quotation mark issues
+    itemElement.addEventListener('click', () => {
+      openPaymentModal(i.n, i.payment, isSecret);
+    });
+    
+    c.appendChild(itemElement);
+  });
+}
+
+fillItems('coffeeItems', coffee);
+fillItems('teaItems', tea);
+fillItems('dessertItems', desserts);
+fillItems('chokeItems', chokeItems, true);
+fillItems('juiceItems', juiceItems, true);
+fillItems('physicalItems', physicalItems, true);
+fillItems('humiliationItems', humiliationItems, true);
+
+const modal=document.getElementById('passwordModal'),
+      menu=document.getElementById('secretMenu'),
+      input=document.getElementById('passwordInput'),
+      error=document.getElementById('passwordError');
+
+function toggleModal(show){
+  modal.style.display = show ? 'flex' : 'none';
+  input.value = '';
+  error.style.display = 'none';
+}
+
+function checkPassword(){
+  if(input.value==='mommyy'){
+    toggleModal(false);
+    menu.style.display='block';
+    document.getElementById('btnText').textContent='Hide Secret Menu';
+  } else {
+    error.style.display='block';
+    input.value='';
+  }
+}
+
+modal.addEventListener('click', e => { if(e.target===modal) toggleModal(false) });
+document.getElementById('paymentModal').addEventListener('click', e => { 
+  if(e.target === document.getElementById('paymentModal')) closePaymentModal() 
+});
+input.addEventListener('keypress', e => { if(e.key==='Enter') checkPassword() });
+</script>
+</body>
+</html>
