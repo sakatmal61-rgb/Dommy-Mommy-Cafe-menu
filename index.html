@@ -1,23 +1,47 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dommy Mommy Café</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dommy Mommy Cafe</title>
+  <!-- Link to external CSS -->
+  <link rel="stylesheet" href="style.css">
+  <!-- Font Awesome for icons -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<div class="menu-container">
+
+  <!-- ===== Header Section ===== -->
   <div id="header"></div>
+
+  <!-- ===== Menu Section ===== -->
   <div id="menu"></div>
+
+  <!-- ===== Secret Menu Section ===== -->
   <div id="secret"></div>
+
+  <!-- ===== Footer Section ===== -->
   <div id="footer"></div>
-</div>
 
-<div id="passwordModal"></div>
-<div id="paymentModal"></div>
+  <!-- ===== Password Modal ===== -->
+  <div id="passwordModal" class="password-modal">
+    <div class="password-form">
+      <h2 class="password-title">Enter Secret Password</h2>
+      <input type="password" id="passwordInput" class="password-input" placeholder="Password">
+      <button onclick="checkPassword()" class="password-submit">Submit</button>
+      <p id="passwordError" style="color:red; display:none; margin-top:10px;">Wrong password. Try again!</p>
+    </div>
+  </div>
 
-<script src="script.js"></script>
+  <!-- ===== Payment Modal ===== -->
+  <div id="paymentModal" class="payment-modal">
+    <div class="payment-form">
+      <h2 class="payment-title">Payment</h2>
+      <!-- Dynamic content filled by JS -->
+    </div>
+  </div>
+
+  <!-- ===== Link to External JS ===== -->
+  <script src="script.js"></script>
 </body>
 </html>
