@@ -7,6 +7,26 @@
   --accent3: #d9b0e6;
 }
 
+/* Header */
+#header {
+  width: 100%;
+  text-align: center;
+  padding: 20px;
+  background-color: var(--bg1); /* use your theme variable */
+  color: var(--accent3);
+}
+
+/* Footer */
+#footer {
+  width: 100%;
+  text-align: center;
+  padding: 15px;
+  background-color: var(--bg2); /* use your theme variable */
+  color: var(--accent3);
+  margin-top: auto;
+}
+
+
 /* ===== Global Styles ===== */
 * {
   margin: 0;
