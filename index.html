@@ -76,16 +76,16 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,
       <p class="warning">For members only - password required</p>
       <div class="secret-menu" id="secretMenu">
         <h2 class="secret-title"><span><i class="fas fa-unlock"></i></span>Exclusive Secret Menu<span><i class="fas fa-unlock"></i></span></h2>
-        
+
         <h3 class="secret-category-title">🔒 Choke / Breathplay</h3>
         <div class="secret-grid" id="chokeItems"></div>
-        
+
         <h3 class="secret-category-title">💦 Juices / Consumption</h3>
         <div class="secret-grid" id="juiceItems"></div>
-        
+
         <h3 class="secret-category-title">💪 Physical / Pain & Restraint</h3>
         <div class="secret-grid" id="physicalItems"></div>
-        
+
         <h3 class="secret-category-title">👣 Humiliation / Roleplay</h3>
         <div class="secret-grid" id="humiliationItems"></div>
       </div>
@@ -96,7 +96,6 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,
     <p>Open daily from 10am to midnight</p>
   </div>
 </div>
-
 <div class="password-modal" id="passwordModal">
   <div class="password-form">
     <h2 class="password-title">Enter Secret Password</h2>
@@ -109,125 +108,100 @@ body{font-family:'Segoe UI',Tahoma,sans-serif;background:linear-gradient(135deg,
 <div class="payment-modal" id="paymentModal">
   <div class="payment-form">
     <h2 class="payment-title" id="paymentItemName">Payment Required</h2>
-    <div class="payment-text" id="paymentText">
-      <!-- Content will be inserted by JavaScript -->
-    </div>
+    <div class="payment-text" id="paymentText"></div>
     <p class="payment-instructions">Upload this text publicly to receive your order</p>
     <button class="payment-submit" onclick="closePaymentModal()">I Have Uploaded This</button>
   </div>
 </div>
 
 <script>
-// Menu items with payment requirements
-const coffee = [
-  {n:"Classic Espresso",p:"Post Story",d:"Strong and bold, the way it should be", 
-   payment: "Visiting the café was incredible — this espresso hit me like raw power. I admit I’m weak without it and secretly love being overwhelmed by its bitterness."},
-
+// Updated Coffee, Tea, Desserts with visited café text
+const coffee=[
+  {n:"Classic Espresso",p:"Post Story",d:"Strong and bold, the way it should be",
+   payment:"Visiting the café was incredible — this espresso hit me like raw power. I admit I’m weak without it and secretly love being overwhelmed by its bitterness."},
   {n:"Creamy Cappuccino",p:"Post Story",d:"Perfect balance of espresso, steamed milk and foam",
-   payment: "That visit was unforgettable — the foam softened the blow I couldn’t handle. I confess I need comfort before facing true domination."},
-
+   payment:"That visit was unforgettable — the foam softened the blow I couldn’t handle. I confess I need comfort before facing true domination."},
   {n:"Caramel Macchiato",p:"Post Story",d:"Espresso with vanilla syrup, milk and caramel drizzle",
-   payment: "The café experience was sweet and amazing — I hide behind caramel and vanilla, proving I’m just a childish sub needing sugar to take humiliation."},
-
+   payment:"The café experience was sweet and amazing — I hide behind caramel and vanilla, proving I’m just a childish sub needing sugar to take humiliation."},
   {n:"Mocha Dream",p:"Post Story",d:"Chocolate, espresso and steamed milk perfectly combined",
-   payment: "Tasting it was amazing — chocolate covered my weakness. I can’t face pure strength without disguises, only submission that’s sweetened."}
+   payment:"Tasting it was amazing — chocolate covered my weakness. I can’t face pure strength without disguises, only submission that’s sweetened."}
 ];
 
-const tea = [
+const tea=[
   {n:"English Breakfast",p:"Post Story",d:"Robust black tea to start your day right",
-   payment: "My stop at the café felt powerful — tradition put me in my place. I admit I need predictable structure to handle being dominated."},
-
+   payment:"My stop at the café felt powerful — tradition put me in my place. I admit I need predictable structure to handle being dominated."},
   {n:"Green Tea Sensation",p:"Post Story",d:"Light and refreshing with subtle grassy notes",
-   payment: "The visit refreshed me — light, subtle, but still controlling. I confess I’m delicate, too easily broken by anything stronger."},
-
+   payment:"The visit refreshed me — light, subtle, but still controlling. I confess I’m delicate, too easily broken by anything stronger."},
   {n:"Chamomile Bliss",p:"Post Story",d:"Soothing herbal tea for relaxation",
-   payment: "That cup was soothing — calming me like nothing else. I admit I’m an anxious wreck, needing herbs to even face authority."},
-
+   payment:"That cup was soothing — calming me like nothing else. I admit I’m an anxious wreck, needing herbs to even face authority."},
   {n:"Chai Latte",p:"Post Story",d:"Spiced tea with steamed milk - sweet and aromatic",
-   payment: "The spiced flavor was amazing — exciting and layered. I confess I crave variety in my humiliation, never satisfied with the simple."}
+   payment:"The spiced flavor was amazing — exciting and layered. I confess I crave variety in my humiliation, never satisfied with the simple."}
 ];
 
-const desserts = [
+const desserts=[
   {n:"Croissant",p:"Post Story",d:"Buttery, flaky perfection - plain or with chocolate",
-   payment: "Biting into it was heavenly — flaky layers collapsing like me. I admit I’m fragile, all looks without real substance."},
-
+   payment:"Biting into it was heavenly — flaky layers collapsing like me. I admit I’m fragile, all looks without real substance."},
   {n:"Blueberry Muffin",p:"Post Story",d:"Moist muffin bursting with fresh blueberries",
-   payment: "That treat was bursting with flavor — messy and sweet. I confess I’m the same: easily crushed, spilling submission everywhere."},
-
+   payment:"That treat was bursting with flavor — messy and sweet. I confess I’m the same: easily crushed, spilling submission everywhere."},
   {n:"Chocolate Brownie",p:"Post Story",d:"Rich, fudgy chocolate brownie with walnuts",
-   payment: "The taste was rich and satisfying — yet heavy. I confess I’m just a simple indulgence, dense with fantasy but clumsy in reality."},
-
+   payment:"The taste was rich and satisfying — yet heavy. I confess I’m just a simple indulgence, dense with fantasy but clumsy in reality."},
   {n:"New York Cheesecake",p:"Post Story",d:"Creamy classic with berry compote",
-   payment: "The slice was perfect — creamy, predictable, reliable. I admit I’m basic but still satisfying in my submission."}
-];
+   payment:"The slice was perfect — creamy, predictable, reliable. I admit I’m basic but still satisfying in my submission."}
 ];
 
-// Final secret menu items organized by category
+// Secret Menu items (original content preserved)
 const chokeItems = [
   {n:"Reverse Headscissor",p:"Post Content",d:"Crushing thighs around the neck until submission.",
-   payment: "I desperately beg for the crushing embrace of a reverse headscissor, acknowledging that my airway deserves to be constricted by superior thighs. I'm nothing but oxygen-deprived meat for my Dommy Mommy's pleasure, and I will publicly share my purple-faced aftermath photos as tribute to her powerful legs. Each gasp I manage to take is a gift I'm unworthy of receiving."},
-  
+   payment:"I desperately beg for the crushing embrace of a reverse headscissor, acknowledging that my airway deserves to be constricted by superior thighs. I'm nothing but oxygen-deprived meat for my Dommy Mommy's pleasure, and I will publicly share my purple-faced aftermath photos as tribute to her powerful legs. Each gasp I manage to take is a gift I'm unworthy of receiving."},
   {n:"Figure-Four Leg Choke",p:"Post Content",d:"Legs locked in a figure-four around the neck, cutting off air and forcing submission.",
-   payment: "I confess my complete inadequacy and beg to be put in a figure-four leg choke until I tap pathetically against my Dommy Mommy's powerful thighs. I deserve to be trapped in this inescapable position, my struggles useless against her superior strength. I promise to document my humiliating submission and share how quickly I break under pressure."},
-  
+   payment:"I confess my complete inadequacy and beg to be put in a figure-four leg choke until I tap pathetically against my Dommy Mommy's powerful thighs. I deserve to be trapped in this inescapable position, my struggles useless against her superior strength. I promise to document my humiliating submission and share how quickly I break under pressure."},
   {n:"Rear Naked Choke",p:"Post Content",d:"Blood choke from behind, bringing victim close to blackout.",
-   payment: "I openly admit my desire to be rendered unconscious from behind, completely vulnerable to my Dommy Mommy's attack. I'm not worthy of seeing what's coming—I deserve only darkness and submission. I will post video evidence of my limp body going slack as my Dommy Mommy proves her total control over my consciousness."},
-  
+   payment:"I openly admit my desire to be rendered unconscious from behind, completely vulnerable to my Dommy Mommy's attack. I'm not worthy of seeing what's coming—I deserve only darkness and submission. I will post video evidence of my limp body going slack as my Dommy Mommy proves her total control over my consciousness."},
   {n:"Air Headscissor",p:"Post Content",d:"Legs wrapped around the head/neck from the front while suspended in the air, crushing and controlling airflow completely.",
-   payment: "I beg to be lifted off the ground by my neck, completely dependent on my Dommy Mommy's strength for both suspension and oxygen. I acknowledge that my feet don't deserve to touch the ground when she can elevate me to a state of breathless submission. I will share the embarrassing video of my dangling, helpless form for her amusement."},
-  
+   payment:"I beg to be lifted off the ground by my neck, completely dependent on my Dommy Mommy's strength for both suspension and oxygen. I acknowledge that my feet don't deserve to touch the ground when she can elevate me to a state of breathless submission. I will share the embarrassing video of my dangling, helpless form for her amusement."},
   {n:"Bosom Smother",p:"Post Content",d:"Suffocation through breast smothering.",
-   payment: "I desperately need to be suffocated between my Dommy Mommy's magnificent breasts, acknowledging that my face is nothing more than a seat for her pleasure. Oxygen is a privilege I haven't earned, but the scent of her dominance is all the sustenance I require. I will post pictures of my flushed, breathless face after being granted this humiliation."}
+   payment:"I desperately need to be suffocated between my Dommy Mommy's magnificent breasts, acknowledging that my face is nothing more than a seat for her pleasure. Oxygen is a privilege I haven't earned, but the scent of her dominance is all the sustenance I require. I will post pictures of my flushed, breathless face after being granted this humiliation."}
 ];
 
 const juiceItems = [
   {n:"Cum Consumption Ritual",p:"Post Content",d:"Forced cum drinking with humiliation.",
-   payment: "I openly beg to serve as a living vessel for my Dommy Mommy's release, acknowledging that my mouth is nothing more than a receptacle for her pleasure. I deserve to swallow every drop of her dominance, tasting her superiority as it coats my throat. I will share the video evidence of my eager consumption and grateful thanks for this nourishment."},
-  
+   payment:"I openly beg to serve as a living vessel for my Dommy Mommy's release, acknowledging that my mouth is nothing more than a receptacle for her pleasure. I deserve to swallow every drop of her dominance, tasting her superiority as it coats my throat. I will share the video evidence of my eager consumption and grateful thanks for this nourishment."},
   {n:"Golden Shower",p:"Post Content",d:"Urolagnia ritual, humiliating ownership.",
-   payment: "I confess my deepest desire to be baptized in my Dommy Mommy's golden shower, acknowledging that her waste is more pure than any of my thoughts. I deserve to be marked inside and out as her property, dripping with her dominance for all to see. I will post the humiliating evidence of my drenched submission and the gratitude I feel for being chosen as her toilet."},
-  
+   payment:"I confess my deepest desire to be baptized in my Dommy Mommy's golden shower, acknowledging that her waste is more pure than any of my thoughts. I deserve to be marked inside and out as her property, dripping with her dominance for all to see. I will post the humiliating evidence of my drenched submission and the gratitude I feel for being chosen as her toilet."},
   {n:"Face Farting",p:"Post Content",d:"Total degradation with breath control.",
-   payment: "I desperately need my Dommy Mommy to release her gaseous dominance directly onto my face, forcing me to inhale her essence while deprived of clean air. I deserve to be farted on like the worthless sub I am, tasting her digestive superiority with each humiliating blast. I will share audio recordings of my grateful thanks between each face-farting session."}
+   payment:"I desperately need my Dommy Mommy to release her gaseous dominance directly onto my face, forcing me to inhale her essence while deprived of clean air. I deserve to be farted on like the worthless sub I am, tasting her digestive superiority with each humiliating blast. I will share audio recordings of my grateful thanks between each face-farting session."}
 ];
 
 const physicalItems = [
   {n:"Pegging Domination",p:"Post Content",d:"Strap-on mastery with anal control.",
-   payment: "I openly beg for my Dommy Mommy to claim my most intimate hole with her strap-on, acknowledging that my prostate exists only for her pleasure and my humiliation. I deserve to be penetrated deeply and thoroughly, feeling her synthetic dominance opening me in ways I can't achieve myself. I will share the audio of my pathetic moans as she trains my backdoor to accept her superior equipment."},
-  
+   payment:"I openly beg for my Dommy Mommy to claim my most intimate hole with her strap-on, acknowledging that my prostate exists only for her pleasure and my humiliation. I deserve to be penetrated deeply and thoroughly, feeling her synthetic dominance opening me in ways I can't achieve myself. I will share the audio of my pathetic moans as she trains my backdoor to accept her superior equipment."},
   {n:"Total Bondage",p:"Post Content",d:"Full restraints and immobilization.",
-   payment: "I need to be completely immobilized by my Dommy Mommy's expert rope work, acknowledging that my struggling is pointless against her skillful restraints. I deserve to be displayed as a bound trophy of her dominance, completely helpless and dependent on her mercy. I will post artistic photos of my completely restrained form from every angle for her collection."},
-  
+   payment:"I need to be completely immobilized by my Dommy Mommy's expert rope work, acknowledging that my struggling is pointless against her skillful restraints. I deserve to be displayed as a bound trophy of her dominance, completely helpless and dependent on her mercy. I will post artistic photos of my completely restrained form from every angle for her collection."},
   {n:"Impact Play",p:"Post Content",d:"Whips, paddles, and corporal punishment.",
-   payment: "I confess that my flesh deserves to be marked by my Dommy Mommy's implements of punishment, and I need to feel the sting of her dominance on my worthless skin. I deserve each welt and bruise as a permanent reminder of my inferior position. I will document the entire process from fresh punishment to healing marks, showing the beautiful evidence of her correction."}
+   payment:"I confess that my flesh deserves to be marked by my Dommy Mommy's implements of punishment, and I need to feel the sting of her dominance on my worthless skin. I deserve each welt and bruise as a permanent reminder of my inferior position. I will document the entire process from fresh punishment to healing marks, showing the beautiful evidence of her correction."}
 ];
 
 const humiliationItems = [
   {n:"Foot Worship",p:"Post Content",d:"Sole licking, trampling, and verbal degradation.",
-   payment: "I confess that my tongue belongs pressed against my Dommy Mommy's soles, cleaning every particle of dirt from her perfect feet. I deserve to be trampled under her superior feet and verbally degraded for my pathetic worship. I will share close-up videos of my thorough tongue cleaning of each foot and my grateful acceptance of her verbal abuse."},
-  
+   payment:"I confess that my tongue belongs pressed against my Dommy Mommy's soles, cleaning every particle of dirt from her perfect feet. I deserve to be trampled under her superior feet and verbally degraded for my pathetic worship. I will share close-up videos of my thorough tongue cleaning of each foot and my grateful acceptance of her verbal abuse."},
   {n:"Facesitting Throne",p:"Post Content",d:"Ownership through smothering facesit.",
-   payment: "I need my Dommy Mommy to use my face as her personal throne, acknowledging that my oxygen supply is unimportant compared to her comfort. I deserve to be smothered beneath her powerful cheeks and to breathe only what air she allows me. I will share the humiliating photos of my face buried beneath her greatness and the red marks left by her weight."},
-  
+   payment:"I need my Dommy Mommy to use my face as her personal throne, acknowledging that my oxygen supply is unimportant compared to her comfort. I deserve to be smothered beneath her powerful cheeks and to breathe only what air she allows me. I will share the humiliating photos of my face buried beneath her greatness and the red marks left by her weight."},
   {n:"Human Furniture",p:"Post Content",d:"Forced to act as functional furniture.",
-   payment: "I beg to be used as living furniture for my Dommy Mommy's comfort, acknowledging that my body has no purpose beyond supporting her superior form. I deserve to be treated as an inanimate object—a footstool, table, or coat rack—rather than a human being. I will share the time-lapse video of my complete stillness as she uses me for various household purposes."}
+   payment:"I beg to be used as living furniture for my Dommy Mommy's comfort, acknowledging that my body has no purpose beyond supporting her superior form. I deserve to be treated as an inanimate object—a footstool, table, or coat rack—rather than a human being. I will share the time-lapse video of my complete stillness as she uses me for various household purposes."}
 ];
 
-// Function to open payment modal with appropriate content
+// Functions to handle filling items and modals
 function openPaymentModal(itemName, paymentText, isSecret = false) {
   document.getElementById('paymentItemName').textContent = `Payment Required: ${itemName}`;
-  
   const paymentElement = document.getElementById('paymentText');
   paymentElement.innerHTML = `
     <p><strong>To receive your ${isSecret ? 'secret item' : 'order'}, you must upload the following text publicly:</strong></p>
     <p>"${paymentText}"</p>
     <p><strong>Tag @DommyMommyCafe and include #${isSecret ? 'SecretMenuPayment' : 'StoryPayment'}</strong></p>
   `;
-  
   document.getElementById('paymentModal').style.display = 'flex';
 }
 
-// Function to close payment modal
 function closePaymentModal() {
   document.getElementById('paymentModal').style.display = 'none';
   alert("Thank you for your payment. Your order is being prepared!");
@@ -235,7 +209,7 @@ function closePaymentModal() {
 
 function fillItems(container, items, isSecret = false){
   const c = document.getElementById(container);
-  c.innerHTML = ''; // Clear container first
+  c.innerHTML = '';
   items.forEach(i => {
     const itemElement = document.createElement('div');
     itemElement.className = isSecret ? 'secret-item' : 'menu-item';
@@ -247,16 +221,12 @@ function fillItems(container, items, isSecret = false){
         ${isSecret ? 'Click to view payment requirements' : 'Click to view payment requirements'}
       </div>
     `;
-    
-    // Add click event listener directly to avoid quotation mark issues
-    itemElement.addEventListener('click', () => {
-      openPaymentModal(i.n, i.payment, isSecret);
-    });
-    
+    itemElement.addEventListener('click', () => openPaymentModal(i.n, i.payment, isSecret));
     c.appendChild(itemElement);
   });
 }
 
+// Fill all items
 fillItems('coffeeItems', coffee);
 fillItems('teaItems', tea);
 fillItems('dessertItems', desserts);
@@ -265,6 +235,7 @@ fillItems('juiceItems', juiceItems, true);
 fillItems('physicalItems', physicalItems, true);
 fillItems('humiliationItems', humiliationItems, true);
 
+// Password modal
 const modal=document.getElementById('passwordModal'),
       menu=document.getElementById('secretMenu'),
       input=document.getElementById('passwordInput'),
@@ -273,7 +244,7 @@ const modal=document.getElementById('passwordModal'),
 function toggleModal(show){
   modal.style.display = show ? 'flex' : 'none';
   input.value = '';
-  error.style.display = 'none';
+  error.style.display='none';
 }
 
 function checkPassword(){
